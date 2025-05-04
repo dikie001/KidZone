@@ -15,12 +15,10 @@ const Grade2 = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  //Calculate the index range of the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = words.slice(indexOfFirstItem, indexOfLastItem);
 
-  //Change page function
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
@@ -28,6 +26,8 @@ const Grade2 = () => {
       .then((res) => res.json())
       .then((data) => setWords(data.grade_2.words));
   }, []);
+
+  const totalPages = Math.ceil(words.length / itemsPerPage);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-4 py-6 flex flex-col items-center">
@@ -50,36 +50,64 @@ const Grade2 = () => {
       </div>
 
       {/* Word Grid */}
-      <div className=" max-w-6xl w-full bg-black/40 p-6 rounded-xl shadow-inner shadow-yellow-700">
+      <div className="max-w-6xl w-full bg-black/40 p-6 rounded-xl shadow-inner shadow-yellow-700">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
-          {" "}
           {currentItems.map((w, i) => (
             <button
               key={i}
               onClick={() => setSelectedWord(w)}
-              className={`bg-gradient-to-br from-yellow-600 to-pink-700 hover:from-purple-600 hover:to-indigo-600 text-white text-xl font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50`}
+              className="bg-gradient-to-br from-yellow-600 to-pink-700 hover:from-purple-600 hover:to-indigo-600 text-white text-xl font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
             >
-              {i + 1}. {w}
+              {indexOfFirstItem + i + 1}. {w}
             </button>
           ))}
         </div>
-        <div className="flex mt-3 justify-between w-full">
-          <button onClick={()=>paginate(currentPage-1)} className="bg-gradient-to-bl  from-red-600 to-pink-500 py-2 px-6 rounded-lg text-lg font-semibold shadow-md shadow-black hover:ring-2 active:ring-3 ring-indigo-500">
-            Back
+
+        {/* Pagination Controls */}
+        <div className="mt-6 flex flex-wrap gap-3 justify-center items-center">
+          <button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
+              currentPage === 1
+                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                : "bg-pink-600 hover:bg-pink-700 text-white"
+            }`}
+          >
+            ◀ Back
           </button>
+
+          {[...Array(totalPages).keys()].map((num) => (
+            <button
+              key={num}
+              onClick={() => paginate(num + 1)}
+              className={`px-3 py-2 rounded-full font-semibold transition-colors ${
+                currentPage === num + 1
+                  ? "bg-yellow-500 text-black"
+                  : "bg-gray-700 text-white hover:bg-purple-600"
+              }`}
+            >
+              {num + 1}
+            </button>
+          ))}
+
           <button
             onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === Math.ceil(words.length/itemsPerPage)}
-            className="bg-gradient-to-bl from-green-600 to-black/40  py-2 px-6 rounded-lg text-lg font-semibold shadow-md shadow-black hover:ring-2 active:ring-3 ring-indigo-500"
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
+              currentPage === totalPages
+                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700 text-white"
+            }`}
           >
-            Next
+            Next ▶
           </button>
         </div>
       </div>
 
       {/* Modal */}
       {selectedWord && (
-        <div className="fixed inset-0  bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="relative bg-gray-900 border border-pink-500 p-8 rounded-3xl shadow-2xl text-center w-[90%] max-w-sm">
             <h2 className="text-4xl font-extrabold text-pink-400 mb-4">
               {selectedWord}

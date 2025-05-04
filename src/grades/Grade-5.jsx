@@ -13,6 +13,15 @@ const Grade5 = () => {
 
   const [sentences, setSentences] = useState([]);
   const [selectedSentence, setSelectedSentence] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sentences.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sentences.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     fetch("/grade_word_data_full.json")
@@ -22,7 +31,6 @@ const Grade5 = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-slate-900 to-gray-950 text-white px-4 py-6 flex flex-col items-center">
-
       {/* Title */}
       <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 via-fuchsia-500 to-purple-600 text-transparent bg-clip-text mb-6">
         Grade 5 Sentences ✍️
@@ -41,17 +49,58 @@ const Grade5 = () => {
         ))}
       </div>
 
-      {/* Sentences */}
+      {/* Sentences List */}
       <div className="flex flex-col gap-4 w-full max-w-5xl bg-slate-900 p-6 rounded-xl shadow-md shadow-purple-800">
-        {sentences.map((sentence, index) => (
+        {currentItems.map((sentence, index) => (
           <div
             key={index}
             onClick={() => setSelectedSentence(sentence)}
             className="cursor-pointer bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-600 hover:from-indigo-700 hover:to-purple-800 transition-all text-white text-xl font-medium p-5 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] ease-in-out"
           >
-            {index + 1}. {sentence}
+            {indexOfFirstItem + index + 1}. {sentence}
           </div>
         ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="mt-6 flex flex-wrap gap-3 justify-center items-center">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            currentPage === 1
+              ? "bg-slate-700 text-gray-400 cursor-not-allowed"
+              : "bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
+          }`}
+        >
+          ◀ Back
+        </button>
+
+        {[...Array(totalPages).keys()].map((num) => (
+          <button
+            key={num}
+            onClick={() => paginate(num + 1)}
+            className={`px-3 py-2 rounded-full font-semibold transition-all ${
+              currentPage === num + 1
+                ? "bg-amber-400 text-black"
+                : "bg-slate-800 text-white hover:bg-purple-600"
+            }`}
+          >
+            {num + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            currentPage === totalPages
+              ? "bg-slate-700 text-gray-400 cursor-not-allowed"
+              : "bg-purple-600 hover:bg-purple-700 text-white"
+          }`}
+        >
+          Next ▶
+        </button>
       </div>
 
       {/* Modal */}

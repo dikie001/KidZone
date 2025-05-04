@@ -13,6 +13,16 @@ const Grade3 = () => {
 
   const [words, setWords] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = words.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(words.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   useEffect(() => {
     fetch("/grade_word_data_full.json")
@@ -22,7 +32,6 @@ const Grade3 = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-4 py-6 flex flex-col items-center">
-      
       {/* Header */}
       <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 text-transparent bg-clip-text mb-6">
         Grade 3 Word Explorer
@@ -42,16 +51,59 @@ const Grade3 = () => {
       </div>
 
       {/* Words Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl bg-black/40 p-6 rounded-xl shadow-inner shadow-purple-900">
-        {words.map((word, index) => (
+      <div className="w-full max-w-6xl bg-black/40 p-6 rounded-xl shadow-inner shadow-purple-900">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+          {currentItems.map((word, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedWord(word)}
+              className="bg-gradient-to-tr from-purple-700 to-indigo-800 hover:from-green-600 hover:to-cyan-600 text-white text-lg font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
+            >
+              {indexOfFirstItem + index + 1}. {word}
+            </button>
+          ))}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="mt-6 flex flex-wrap gap-3 justify-center items-center">
           <button
-            key={index}
-            onClick={() => setSelectedWord(word)}
-            className="bg-gradient-to-tr from-purple-700 to-indigo-800 hover:from-green-600 hover:to-cyan-600 text-white text-lg font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
+              currentPage === 1
+                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                : "bg-purple-600 hover:bg-purple-700 text-white"
+            }`}
           >
-            {index + 1}. {word}
+            ◀ Back
           </button>
-        ))}
+
+          {[...Array(totalPages).keys()].map((num) => (
+            <button
+              key={num}
+              onClick={() => paginate(num + 1)}
+              className={`px-3 py-2 rounded-full font-semibold transition-colors ${
+                currentPage === num + 1
+                  ? "bg-blue-400 text-black"
+                  : "bg-gray-700 text-white hover:bg-purple-600"
+              }`}
+            >
+              {num + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
+              currentPage === totalPages
+                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
+          >
+            Next ▶
+          </button>
+        </div>
       </div>
 
       {/* Modal */}
@@ -75,16 +127,3 @@ const Grade3 = () => {
 };
 
 export default Grade3;
-
-// This code defines a React component for a Grade 3 word explorer app.
-// It fetches a list of words from a JSON file and displays them in a grid format.
-// When a word is clicked, it opens a modal displaying the selected word.
-// The component also includes navigation links to other grades and an about page.
-// The styling is done using Tailwind CSS for a modern and responsive design.
-// The component uses React Router for navigation and Lucide icons for the close button.
-// The modal and buttons have hover and active effects for better user experience.
-// The overall design is focused on simplicity and ease of use for young learners.
-// The app is structured to be visually appealing with a gradient background and shadow effects.
-// The component is designed to be responsive and works well on different screen sizes.
-// The use of hooks like useState and useEffect allows for dynamic data fetching and state management.
-// The component is a part of a larger educational platform aimed at helping students improve their vocabulary and reading skills.
