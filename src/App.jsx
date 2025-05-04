@@ -1,10 +1,11 @@
 import React from 'react'
 import Memory from './Memory'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Words from './Words'
+
 import Grade2 from './grades/Grade-2'
 import Grade3 from './grades/Grade-3'
 import Grade5 from './grades/Grade-5'
+import About from './About'
 
 const App = () => {
   return (
@@ -13,7 +14,8 @@ const App = () => {
      
       <Routes>
         
-        <Route path='/words' element={<Words/>}/>
+
+        <Route path='/about' element={<About/>}/>
         <Route path='/' element={<Memory/>}/>
         <Route path='/grade-2' element={<Grade2/>}/>
         <Route path='/grade-3' element={<Grade3/>}/>
