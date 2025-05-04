@@ -2,6 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Memory = () => {
+  const navLinks = [
+    { path: "/", label: "🏠 Home" },
+    { path: "/grade-2", label: "🧒 Grade 2" },
+    { path: "/grade-3", label: "📚 Grade 3" },
+    { path: "/grade-5", label: "🧠 Grade 5" },
+    { path: "/about", label: "ℹ️ About" },
+  ];
+
   const verses = [
     {
       name: "Matilda Awino",
@@ -32,19 +40,16 @@ const Memory = () => {
       </h1>
 
       {/* Navigation */}
-      <div className="flex flex-wrap gap-4 justify-center mb-10">
-        <Link
-          to="/words"
-          className="bg-gradient-to-r from-indigo-700 to-violet-700 hover:from-indigo-600 hover:to-violet-600 px-5 py-2 rounded-lg font-semibold shadow-md transition-all duration-300"
-        >
-          📚 Reading
-        </Link>
-        <Link
-          to="/grade-3"
-          className="bg-gradient-to-r from-purple-700 to-pink-600 hover:from-purple-600 hover:to-pink-500 px-5 py-2 rounded-lg font-semibold shadow-md transition-all duration-300"
-        >
-          🧠 Grade 3
-        </Link>
+      <div className="flex flex-wrap gap-3 justify-center mb-12">
+        {navLinks.map((link, i) => (
+          <Link
+            key={i}
+            to={link.path}
+            className="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-white font-medium tracking-wide transition-all duration-300 shadow-md backdrop-blur-md"
+          >
+            {link.label}
+          </Link>
+        ))}
       </div>
 
       {/* Memory Verse Cards */}
@@ -71,11 +76,5 @@ const Memory = () => {
 };
 
 export default Memory;
-// This component is a simple memory verse display page with navigation links and styled cards for each verse.
+// This component is a simple memory verse display page with navigation links and styled cards for each verse.    
 // It uses Tailwind CSS for styling and React Router for navigation.
-// The component is structured to be responsive and visually appealing, with a gradient background and hover effects on the cards.
-// The verses are hardcoded in an array, and each verse is displayed in a card format with a name, reference, and text.
-// The navigation links allow users to navigate to other parts of the app, such as the reading section and Grade 3 words.
-// The component is designed to be easy to read and understand, with clear typography and spacing.
-// The use of Tailwind CSS classes allows for quick adjustments to the design without needing to write custom CSS.
-// The component is functional and can be easily integrated into a larger React application.  
