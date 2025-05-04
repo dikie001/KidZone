@@ -1,80 +1,77 @@
-import { XIcon } from "lucide-react";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { XIcon } from "lucide-react";
 
 const Grade5 = () => {
-
   const navLinks = [
-    { path: "/", label: "Home" },
-    { path: "/grade-2", label: "Grade 2" },
-    { path: "/grade-3", label: "Grade 3" },
-    { path: "/grade-5", label: "Grade 5" },
-    { path: "/about", label: "About" },
+    { path: "/", label: "🏠 Home" },
+    { path: "/grade-2", label: "📘 Grade 2" },
+    { path: "/grade-3", label: "📗 Grade 3" },
+    { path: "/grade-5", label: "📙 Grade 5" },
+    { path: "/about", label: "ℹ️ About" },
   ];
 
-  const [word, setWords] = useState([]);
-  const [cont, setCont] = useState();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [sentences, setSentences] = useState([]);
+  const [selectedSentence, setSelectedSentence] = useState(null);
 
   useEffect(() => {
-    
     fetch("/grade_word_data_full.json")
       .then((res) => res.json())
-      .then((data) => {
-        setWords(data.grade_5.sentences);
-      });
-    console.log(word);
+      .then((data) => setSentences(data.grade_5.sentences));
   }, []);
 
-  //modal for content pop up
-  const content = (w) => {
-    setIsModalVisible(true);
-    setCont(w);
-  };
   return (
-    <div className="flex flex-col justify-center items-center">
-      {" "}
-      <div className={`${isModalVisible && 'blur-sm bg-black/70'} text-center p-2 flex flex-col items-center`}>
-        <h1 className="bg-black/70 mb-3 m-auto w-100 p-2  text-green-500 text-4xl font-extrabold rounded-2xl shadow-md shadow-black/80">
-          Grade 5 Reading
-        </h1>
-        <div className="flex gap-3">
-          {navLinks.map((link, i) => (
-            <Link
-              key={i}
-              to={link.path}
-              className="bg-green-700 active:ring-2 ring-white py-1.5 px-4 rounded-lg text-white font-semibold mb-2 shadow-md transition-transform transform hover:scale-105 active:scale-90 ease-in-out"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        <div className="bg-black/50 gap-2 rounded-xl shadow-lg text-2xl font-semibold shadow-red-400 text-white max-w-6xl flex flex-col  p-5">
-          {word.map((w, i) => (
-            <h1
-              onClick={() => content(w)}
-              className="bg-black/70 cursor-pointer p-4 transition-transform hover:ring-2 ring-green-500 transform hover:scale-105 ease-in-out duration-300 justify-start px-5 flex rounded-xl shadow-md shadow-blue-800"
-              key={i}
-            >
-              {i}. {w}
-            </h1>
-          ))}
-        </div>
- 
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-900 to-gray-950 text-white px-4 py-6 flex flex-col items-center">
+
+      {/* Title */}
+      <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 via-fuchsia-500 to-purple-600 text-transparent bg-clip-text mb-6">
+        Grade 5 Sentences ✍️
+      </h1>
+
+      {/* Navigation */}
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {navLinks.map((link, index) => (
+          <Link
+            key={index}
+            to={link.path}
+            className="bg-slate-800 hover:bg-fuchsia-700 transition-colors duration-300 px-4 py-2 rounded-lg font-semibold shadow-sm shadow-fuchsia-500"
+          >
+            {link.label}
+          </Link>
+        ))}
       </div>
-      {isModalVisible && (
-          <div className="bg-blue-700  text-white py-9 px-5 shadow-md shadow-cyan-400  p-5 text-4xl md:text-5xl min-lg:text-7xl font-bold  fixed top-50 flex items-center justify-center  w-50 md:w-100  rounded-lg  ">
-            {cont}
-            <div
-              onClick={() => setIsModalVisible(false)}
-              className="bg-black/60 shadow-md hover:bg-blue-700 shadow-blue-400 active:ring-2 ring-blue-200 absolute top-1 right-2 p-1 rounded-xl text-white"
-            >
-              <XIcon size={25} className=" font-bold" />
-            </div>
+
+      {/* Sentences */}
+      <div className="flex flex-col gap-4 w-full max-w-5xl bg-slate-900 p-6 rounded-xl shadow-md shadow-purple-800">
+        {sentences.map((sentence, index) => (
+          <div
+            key={index}
+            onClick={() => setSelectedSentence(sentence)}
+            className="cursor-pointer bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-600 hover:from-indigo-700 hover:to-purple-800 transition-all text-white text-xl font-medium p-5 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] ease-in-out"
+          >
+            {index + 1}. {sentence}
           </div>
-        )}
+        ))}
+      </div>
+
+      {/* Modal */}
+      {selectedSentence && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="relative bg-slate-950 border border-purple-500 text-white p-8 rounded-3xl shadow-xl w-[90%] max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-300 mb-4 text-center">
+              ✨ Sentence ✨
+            </h2>
+            <p className="text-xl md:text-2xl font-medium text-center">{selectedSentence}</p>
+
+            <button
+              onClick={() => setSelectedSentence(null)}
+              className="absolute top-4 right-4 bg-purple-700 hover:bg-purple-500 text-white p-2 rounded-full"
+            >
+              <XIcon size={24} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

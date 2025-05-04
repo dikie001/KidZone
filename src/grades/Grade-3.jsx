@@ -1,80 +1,90 @@
-import { XIcon } from "lucide-react";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { XIcon } from "lucide-react";
 
 const Grade3 = () => {
   const navLinks = [
-    { path: "/", label: "Home" },
-    { path: "/grade-2", label: "Grade 2" },
-    { path: "/grade-3", label: "Grade 3" },
-    { path: "/grade-5", label: "Grade 5" },
-    { path: "/about", label: "About" },
+    { path: "/", label: "🏠 Home" },
+    { path: "/grade-2", label: "🧒 Grade 2" },
+    { path: "/grade-3", label: "📚 Grade 3" },
+    { path: "/grade-5", label: "🧠 Grade 5" },
+    { path: "/about", label: "ℹ️ About" },
   ];
 
-  const [word, setWords] = useState([]);
-  const [cont, setCont] = useState();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [words, setWords] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(null);
 
   useEffect(() => {
     fetch("/grade_word_data_full.json")
       .then((res) => res.json())
-      .then((data) => {
-        setWords(data.grade_3.words);
-      });
-    console.log(word);
+      .then((data) => setWords(data.grade_3.words));
   }, []);
 
-  //modal for content pop up
-  const content = (w) => {
-    setIsModalVisible(true);
-    setCont(w);
-  };
   return (
-    <div className="flex flex-col justify-center items-center">
-      {" "}
-      <div className={`${isModalVisible && 'blur-sm bg-black/70'} text-center p-2 flex flex-col items-center`}>
-        <h1 className="bg-black/70 mb-3 m-auto w-100 p-2  text-green-500 text-4xl font-extrabold rounded-2xl shadow-md shadow-black/80">
-          Grade 3 Reading
-        </h1>
-        <div className="flex gap-3">
-          {navLinks.map((link, i) => (
-            <Link
-              key={i}
-              to={link.path}
-              className="bg-green-700 active:ring-2 ring-white py-1.5 px-4 rounded-lg text-white font-semibold mb-2 shadow-md transition-transform transform hover:scale-105 active:scale-90 ease-in-out"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        <div className="bg-black/50 gap-2 rounded-xl shadow-lg text-xl font-semibold shadow-red-400 text-white max-w-6xl grid grid-cols-2 min-sm:grid-cols-3 min-md:grid-cols-3 min-lg:grid-cols-4 min-xl:grid-cols-5 p-5">
-          {word.map((w, i) => (
-            <h1
-              onClick={() => content(w)}
-              className="bg-black/70 cursor-pointer p-2 md:py-4 transition-transform hover:ring-2 ring-green-500 transform hover:scale-115 justify-start px-5 flex rounded-xl shadow-md shadow-blue-800"
-              key={i}
-            >
-              {i}. {w}
-            </h1>
-          ))}
-        </div>
- 
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white px-4 py-6 flex flex-col items-center">
+      
+      {/* Header */}
+      <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 text-transparent bg-clip-text mb-6">
+        Grade 3 Word Explorer
+      </h1>
+
+      {/* Navigation */}
+      <div className="flex flex-wrap gap-4 justify-center mb-8">
+        {navLinks.map((link, index) => (
+          <Link
+            key={index}
+            to={link.path}
+            className="bg-gray-700 hover:bg-purple-700 transition-colors duration-300 px-4 py-2 rounded-lg font-semibold shadow-lg"
+          >
+            {link.label}
+          </Link>
+        ))}
       </div>
-      {isModalVisible && (
-          <div className="bg-blue-700  text-white py-9 px-5 shadow-md shadow-cyan-400  p-5 text-4xl md:text-5xl min-lg:text-7xl font-bold  fixed top-50 flex items-center justify-center  w-50 md:w-100  rounded-lg  ">
-            {cont}
-            <div
-              onClick={() => setIsModalVisible(false)}
-              className="bg-black/60 shadow-md hover:bg-blue-700 shadow-blue-400 active:ring-2 ring-blue-200 absolute top-1 right-2 p-1 rounded-xl text-white"
+
+      {/* Words Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full max-w-6xl bg-black/40 p-6 rounded-xl shadow-inner shadow-purple-900">
+        {words.map((word, index) => (
+          <button
+            key={index}
+            onClick={() => setSelectedWord(word)}
+            className="bg-gradient-to-tr from-purple-700 to-indigo-800 hover:from-green-600 hover:to-cyan-600 text-white text-lg font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
+          >
+            {index + 1}. {word}
+          </button>
+        ))}
+      </div>
+
+      {/* Modal */}
+      {selectedWord && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="relative bg-gray-900 border border-purple-600 p-8 rounded-3xl shadow-2xl text-center w-[90%] max-w-sm">
+            <h2 className="text-4xl font-extrabold text-purple-400 mb-4">
+              {selectedWord}
+            </h2>
+            <button
+              onClick={() => setSelectedWord(null)}
+              className="absolute top-3 right-3 bg-purple-700 hover:bg-purple-500 text-white p-2 rounded-full"
             >
-              <XIcon size={25} className=" font-bold" />
-            </div>
+              <XIcon size={24} />
+            </button>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };
 
 export default Grade3;
+
+// This code defines a React component for a Grade 3 word explorer app.
+// It fetches a list of words from a JSON file and displays them in a grid format.
+// When a word is clicked, it opens a modal displaying the selected word.
+// The component also includes navigation links to other grades and an about page.
+// The styling is done using Tailwind CSS for a modern and responsive design.
+// The component uses React Router for navigation and Lucide icons for the close button.
+// The modal and buttons have hover and active effects for better user experience.
+// The overall design is focused on simplicity and ease of use for young learners.
+// The app is structured to be visually appealing with a gradient background and shadow effects.
+// The component is designed to be responsive and works well on different screen sizes.
+// The use of hooks like useState and useEffect allows for dynamic data fetching and state management.
+// The component is a part of a larger educational platform aimed at helping students improve their vocabulary and reading skills.
