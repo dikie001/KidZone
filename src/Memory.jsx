@@ -110,21 +110,21 @@ const Memory = () => {
       <div className="flex gap-6 mb-8">
         <button
           onClick={() => handleKidSelection("Matilda Awino")}
-          className={`px-6 py-2 rounded-xl font-semibold ${selectedKid === "Matilda Awino" ? "bg-sky-600" : "bg-sky-400"} text-white transition-all duration-300`}
+          className={`px-6 py-2 shadow-md shadow-black rounded-xl font-semibold ${selectedKid === "Matilda Awino" ? "bg-sky-600" : "bg-sky-400"} text-white transition-all duration-300`}
         >
-          Matilda Awino
+          Matilda
         </button>
         <button
           onClick={() => handleKidSelection("Gavin Sowon")}
-          className={`px-6 py-2 rounded-xl font-semibold ${selectedKid === "Gavin Sowon" ? "bg-rose-600" : "bg-rose-400"} text-white transition-all duration-300`}
+          className={`px-6 py-2 shadow-md shadow-black rounded-xl font-semibold ${selectedKid === "Gavin Sowon" ? "bg-rose-600" : "bg-rose-400"} text-white transition-all duration-300`}
         >
-          Gavin Sowon
+          Sowon
         </button>
         <button
           onClick={() => handleKidSelection("Ryanne Ochieng")}
-          className={`px-6 py-2 rounded-xl font-semibold ${selectedKid === "Ryanne Ochieng" ? "bg-amber-600" : "bg-amber-400"} text-white transition-all duration-300`}
+          className={`px-6 py-2 shadow-md shadow-black rounded-xl font-semibold ${selectedKid === "Ryanne Ochieng" ? "bg-amber-600" : "bg-amber-400"} text-white transition-all duration-300`}
         >
-          Ryanne Ochieng
+          Ryanne 
         </button>
       </div>
 
