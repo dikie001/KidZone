@@ -55,7 +55,7 @@ const Grade5 = () => {
           <div
             key={index}
             onClick={() => setSelectedSentence(sentence)}
-            className="cursor-pointer bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-600 hover:from-indigo-700 hover:to-purple-800 transition-all text-white text-xl font-medium p-5 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] ease-in-out"
+            className="cursor-pointer bg-gradient-to-r from-purple-700 via-violet-600 to-indigo-600 hover:from-indigo-700 hover:to-purple-800 transition-all text-white text-2xl font-medium p-5 rounded-xl shadow-sm hover:shadow-md hover:scale-[1.01] ease-in-out"
           >
             {indexOfFirstItem + index + 1}. {sentence}
           </div>

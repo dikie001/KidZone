@@ -137,7 +137,7 @@ const Memory = () => {
           >
             <h2 className={`text-3xl font-bold mb-2 ${v.color}`}>{v.name}</h2>
             <p className="text-lg font-semibold text-cyan-400 italic mb-2">{v.verseRef}</p>
-            <p className="text-base text-slate-200 leading-relaxed tracking-wide">{v.text}</p>
+            <p className=" text-slate-200 text-xl leading-relaxed tracking-wide">{v.text}</p>
           </div>
         ))}
       </div>

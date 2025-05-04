@@ -51,12 +51,12 @@ const Grade2 = () => {
 
       {/* Word Grid */}
       <div className="max-w-6xl w-full bg-black/40 p-6 rounded-xl shadow-inner shadow-yellow-700">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 w-full">
           {currentItems.map((w, i) => (
             <button
               key={i}
               onClick={() => setSelectedWord(w)}
-              className="bg-gradient-to-br from-yellow-600 to-pink-700 hover:from-purple-600 hover:to-indigo-600 text-white text-xl font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
+              className="bg-gradient-to-br from-yellow-600 to-pink-700 hover:from-purple-600 hover:to-indigo-600 text-white text-xl md:text-2xl font-bold py-3 rounded-xl transition-transform transform hover:scale-105 active:scale-95 shadow-md shadow-black/50"
             >
               {indexOfFirstItem + i + 1}. {w}
             </button>

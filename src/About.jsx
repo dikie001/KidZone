@@ -27,7 +27,7 @@ const About = () => {
           <li>🔄 Easily navigable layout built with React + Tailwind</li>
         </ul>
 
-        <p className="text-white italic">“Learning is not attained by chance, it must be sought for with ardor and attended to with diligence.” – Abigail Adams</p>
+        <p className="text-white italic">“Learning is not attained by chance, it must be sought for with ardor and attended to with diligence.” – Matilda Awino</p>
         
         {/* Navigation Links */}
         <div className="flex flex-wrap gap-4 justify-center mt-6">
