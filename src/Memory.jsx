@@ -1,55 +1,66 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 
 const Memory = () => {
-
-  const numbers = [];
-  for (let i = 1; i <= 100; i++) {
-    numbers.push(i);
-  }
+  const verses = [
+    {
+      name: "Matilda Awino",
+      verseRef: "Ephesians 4:32",
+      text: "Be kind and compassionate to one another, forgiving each other, just as our Lord Jesus Christ forgave you.",
+      color: "text-blue-400",
+    },
+    {
+      name: "Gavin Sowon",
+      verseRef: "Philippians 4:13",
+      text: "I can do all things through Christ who strengthens me.",
+      color: "text-pink-400",
+    },
+    {
+      name: "Ryanne Ochieng",
+      verseRef: "Proverbs 3:5",
+      text: "Trust in the Lord with all your heart and do not lean on your own understanding.",
+      color: "text-yellow-300",
+    },
+  ];
 
   return (
-    <div className="min-h-screen  w-full bg-gradient-to-br from-indigo-600 via-pink-600 to-blue-500 grid-cols-10 bg- items-center gap-3 justify-center">
-      <h1 className="text-center bg-black/40 w-120 mb-5  p-5 rounded-lg shadow-md shadow-black m-auto font-extrabold text-white text-3xl ">
-        Memory Verses
+    <div className="min-h-screen bg-gradient-to-br from-indigo-700 via-pink-600 to-purple-700 px-6 py-10 flex flex-col items-center text-white">
+      <h1 className="text-4xl font-extrabold bg-black/40 rounded-xl px-8 py-4 shadow-lg shadow-black mb-10">
+        ✨ Memory Verses ✨
       </h1>
-      <div className="flex gap-3 items-center justify-center m-5">
-        <Link to="/words" className="bg-black/40 py-1.5 px-4 rounded-lg text-white font-semibold shadow-md shadow-cyan-500">
-          Reading
+
+      {/* Navigation Links */}
+      <div className="flex flex-wrap gap-4 justify-center mb-10">
+        <Link
+          to="/words"
+          className="bg-white/10 hover:bg-white/20 py-2 px-5 rounded-lg text-white font-semibold shadow-md backdrop-blur-md transition"
+        >
+          📚 Reading
         </Link>
-        <Link to="grade-3">Grade 3</Link>
-      </div>
-      <div className=" w-4xl m-auto bg-black/60 p-6 rounded-lg shadow-lg shadow-cyan-500">
-        <h2 className="text-center text-4xl font-extrabold text-blue-500">
-          Matilda Awino
-        </h2>
-        <p className="text-3xl font-semibold text-cyan-400">Ephesians 4:32</p>
-        <p className="text-white text-2xl">
-          Be kind and compassionate to one another, forgiving each other, just
-          as our Lord Jesus Christ forgave you.
-        </p>
+        <Link
+          to="/grade-3"
+          className="bg-white/10 hover:bg-white/20 py-2 px-5 rounded-lg text-white font-semibold shadow-md backdrop-blur-md transition"
+        >
+          🧠 Grade 3
+        </Link>
       </div>
 
-      <div className=" w-4xl mt-4 m-auto bg-black/60 p-6 rounded-lg shadow-lg shadow-cyan-500">
-        <h2 className="text-center text-4xl font-extrabold text-pink-500">
-          Gavin Sowon
-        </h2>
-        <p className="text-3xl font-semibold text-cyan-400">Philippians 4:13</p>
-        <p className="text-white text-2xl">
-          I can do all things through christ who strengthens me.
-        </p>
-      </div>
-
-      <div className=" w-4xl pb-5 m-auto mt-4 bg-black/60 p-6 rounded-lg shadow-lg shadow-cyan-500">
-        <h2 className="text-center text-4xl font-extrabold text-yellow-500">
-          Ryanne Ochieng
-        </h2>
-        <p className="text-3xl font-semibold text-cyan-400">Proverbs 3:5</p>
-        <p className="text-white text-2xl">
-          Trust in the Lord with all your heart and do not lean on your own
-          understanding.
-        </p>
+      {/* Verses Section */}
+      <div className="grid gap-8 max-w-4xl w-full">
+        {verses.map((v, i) => (
+          <div
+            key={i}
+            className="bg-black/60 p-6 rounded-2xl shadow-lg shadow-cyan-500"
+          >
+            <h2 className={`text-3xl font-extrabold mb-1 ${v.color}`}>
+              {v.name}
+            </h2>
+            <p className="text-xl font-semibold text-cyan-300 mb-3">
+              {v.verseRef}
+            </p>
+            <p className="text-lg leading-relaxed text-white">{v.text}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
